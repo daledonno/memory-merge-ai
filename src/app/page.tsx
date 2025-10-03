@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import PaymentModal from '../components/PaymentModal';
 
 export default function Home() {
   const [photo1, setPhoto1] = useState<File | null>(null);
@@ -10,6 +11,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<{ status: string; generatedImageUrl?: string; message?: string } | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   // Stock photography URLs for placeholders
   const stockImages = {
@@ -519,10 +521,7 @@ export default function Home() {
                         </button>
                         
                         <button
-                          onClick={() => {
-                            // TODO: Implement 4K download payment flow
-                            alert('4K Download - Premium Feature Coming Soon!\n\nThis will be a paid option for high-resolution printing.');
-                          }}
+                          onClick={() => setShowPaymentModal(true)}
                           className="flex-1 bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-3 px-6 rounded-xl font-semibold hover:opacity-90 transition-opacity shadow-lg relative"
                         >
                           <span className="flex items-center justify-center gap-2">
@@ -660,6 +659,21 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Payment Modal */}
+        <PaymentModal
+          isOpen={showPaymentModal}
+          onClose={() => setShowPaymentModal(false)}
+          imageUrl={result?.generatedImageUrl || ''}
+          onSuccess={(downloadUrl) => {
+            // Download the 4K image
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = 'memory-photo-4k.jpg';
+            link.target = '_blank';
+            link.click();
+          }}
+        />
     </div>
   );
 }
