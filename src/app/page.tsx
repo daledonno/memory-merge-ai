@@ -411,28 +411,16 @@ export default function Home() {
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
                   <div className="relative">
                     <div className="w-full h-[600px] bg-gray-200 relative overflow-hidden rounded-2xl">
-                      {result && result.status === 'success' && result.generatedImageUrl ? (
-                        <Image
-                          src={result.generatedImageUrl}
-                          alt="Generated family memory"
-                          width={400}
-                          height={600}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <Image
-                          src={stockImages.family}
-                          alt="Example family portrait"
-                          width={400}
-                          height={600}
-                          className="w-full h-full object-cover"
-                        />
-                      )}
+                      <Image
+                        src="/assets/images/Preview%201.jpeg"
+                        alt="Example family portrait"
+                        width={400}
+                        height={600}
+                        className="w-full h-full object-cover"
+                      />
                       <div className="absolute top-4 right-4">
                         <div className="bg-white bg-opacity-90 rounded-full px-3 py-1">
-                          <p className="text-xs text-gray-700 font-medium">
-                            {result && result.status === 'success' ? 'Your Memory' : 'Example'}
-                          </p>
+                          <p className="text-xs text-gray-700 font-medium">Example</p>
                         </div>
                       </div>
                     </div>
