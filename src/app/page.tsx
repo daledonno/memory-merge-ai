@@ -487,33 +487,66 @@ export default function Home() {
                         </div>
                       </div>
                     </div>
-                    <div className="p-0">
+                    <div className="p-6 space-y-4">
+                      {/* Download Buttons Row */}
+                      <div className="flex gap-4">
+                        <button
+                          onClick={async () => {
+                            try {
+                              const response = await fetch(result.generatedImageUrl!);
+                              const blob = await response.blob();
+                              const url = window.URL.createObjectURL(blob);
+                              const link = document.createElement('a');
+                              link.href = url;
+                              link.download = 'memory-photo.jpg';
+                              document.body.appendChild(link);
+                              link.click();
+                              document.body.removeChild(link);
+                              window.URL.revokeObjectURL(url);
+                            } catch (error) {
+                              console.error('Download failed:', error);
+                              // Fallback to direct link
+                              const link = document.createElement('a');
+                              link.href = result.generatedImageUrl!;
+                              link.download = 'memory-photo.jpg';
+                              link.target = '_blank';
+                              link.click();
+                            }
+                          }}
+                          className="flex-1 bg-gradient-to-r from-orange-400 to-pink-500 text-white py-3 px-6 rounded-xl font-semibold hover:opacity-90 transition-opacity shadow-lg"
+                        >
+                          Download Standard
+                        </button>
+                        
+                        <button
+                          onClick={() => {
+                            // TODO: Implement 4K download payment flow
+                            alert('4K Download - Premium Feature Coming Soon!\n\nThis will be a paid option for high-resolution printing.');
+                          }}
+                          className="flex-1 bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-3 px-6 rounded-xl font-semibold hover:opacity-90 transition-opacity shadow-lg relative"
+                        >
+                          <span className="flex items-center justify-center gap-2">
+                            Download 4K
+                            <span className="bg-yellow-400 text-black text-xs px-2 py-1 rounded-full font-bold">
+                              $2.99
+                            </span>
+                          </span>
+                        </button>
+                      </div>
+                      
+                      {/* Retry Button */}
                       <button
-                        onClick={async () => {
-                          try {
-                            const response = await fetch(result.generatedImageUrl!);
-                            const blob = await response.blob();
-                            const url = window.URL.createObjectURL(blob);
-                            const link = document.createElement('a');
-                            link.href = url;
-                            link.download = 'memory-photo.jpg';
-                            document.body.appendChild(link);
-                            link.click();
-                            document.body.removeChild(link);
-                            window.URL.revokeObjectURL(url);
-                          } catch (error) {
-                            console.error('Download failed:', error);
-                            // Fallback to direct link
-                            const link = document.createElement('a');
-                            link.href = result.generatedImageUrl!;
-                            link.download = 'memory-photo.jpg';
-                            link.target = '_blank';
-                            link.click();
-                          }
+                        onClick={() => {
+                          setResult(null);
+                          setPhoto1(null);
+                          setPhoto2(null);
+                          setPrompt('');
+                          // Scroll back to form
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
-                        className="w-full bg-gradient-to-r from-orange-400 to-pink-500 text-white py-4 px-6 rounded-b-2xl font-semibold text-lg hover:opacity-90 transition-opacity shadow-lg"
+                        className="w-full bg-gray-100 text-gray-700 py-3 px-6 rounded-xl font-semibold hover:bg-gray-200 transition-colors border-2 border-gray-200"
                       >
-                        Download Your Memory
+                        Generate New Memory
                       </button>
                     </div>
                   </div>
