@@ -141,10 +141,29 @@ export default function Home() {
     }
   };
 
-  const renderMockup = (mockupType: string, imageUrl?: string) => {
+  const renderMockup = (mockupType: string, imageUrl?: string, variantId?: string) => {
     // Use stock image as placeholder if no generated image
     const displayImage = imageUrl || stockImages[mockupType as keyof typeof stockImages] || stockImages.family;
     
+    // If we have a generated image, show it on the product mockup
+    if (imageUrl) {
+      return (
+        <div className="w-full h-48 bg-gray-100 rounded-lg relative overflow-hidden">
+          <Image
+            src={imageUrl}
+            alt={`${mockupType} with your image`}
+            width={400}
+            height={300}
+            className="w-full h-full object-cover rounded-lg"
+          />
+          <div className="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
+            Your Image
+          </div>
+        </div>
+      );
+    }
+    
+    // Fallback to custom mockups
     switch (mockupType) {
       case 'mug':
         return (
@@ -607,7 +626,7 @@ export default function Home() {
                         {products.slice(slideIndex * 3, (slideIndex + 1) * 3).map((product) => (
                           <div key={product.id} className="bg-gray-50 rounded-2xl p-6 text-center hover:shadow-lg transition-shadow">
                             <div className="bg-white rounded-xl p-4 mb-4 shadow-sm">
-                              {renderMockup(product.mockupType, result?.generatedImageUrl)}
+                              {renderMockup(product.mockupType, result?.generatedImageUrl, product.printfulVariantId)}
                             </div>
                             <h3 className="text-lg font-semibold text-gray-900 mb-2">{product.name}</h3>
                             <p className="text-gray-600 text-sm mb-4">{product.description}</p>
