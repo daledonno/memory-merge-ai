@@ -135,8 +135,8 @@ export default function Home() {
       } else {
         alert('Failed to create order. Please try again.');
       }
-    } catch (err) {
-      console.error('Order error:', err);
+    } catch (error) {
+      console.error('Order error:', error);
       alert('Failed to create order. Please try again.');
     }
   };

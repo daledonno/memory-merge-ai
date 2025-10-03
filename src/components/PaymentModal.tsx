@@ -82,7 +82,7 @@ function CheckoutForm({ imageUrl, onSuccess, onClose }: Omit<PaymentModalProps, 
         onSuccess(downloadUrl);
         onClose();
       }
-    } catch (err) {
+    } catch (error) {
       setError('Payment failed. Please try again.');
     } finally {
       setIsProcessing(false);
