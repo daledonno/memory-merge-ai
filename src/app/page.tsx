@@ -145,17 +145,73 @@ export default function Home() {
     // Use stock image as placeholder if no generated image
     const displayImage = imageUrl || stockImages[mockupType as keyof typeof stockImages] || stockImages.family;
     
-    // If we have a generated image, show it on the product mockup
+    // If we have a generated image, show it ON the product mockup
     if (imageUrl) {
       return (
         <div className="w-full h-48 bg-gray-100 rounded-lg relative overflow-hidden">
-          <Image
-            src={imageUrl}
-            alt={`${mockupType} with your image`}
-            width={400}
-            height={300}
-            className="w-full h-full object-cover rounded-lg"
-          />
+          {/* Product mockup background */}
+          <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg flex items-center justify-center">
+            {mockupType === 'mug' && (
+              <div className="w-24 h-32 bg-white rounded-lg shadow-lg relative overflow-hidden">
+                <Image
+                  src={imageUrl}
+                  alt="Mug with your image"
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+                <div className="absolute inset-0 border-2 border-gray-300 rounded-lg"></div>
+              </div>
+            )}
+            {mockupType === 'tshirt' && (
+              <div className="w-20 h-24 bg-white rounded-lg shadow-lg relative overflow-hidden">
+                <Image
+                  src={imageUrl}
+                  alt="T-shirt with your image"
+                  width={60}
+                  height={60}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+                <div className="absolute inset-0 border-2 border-gray-300 rounded-lg"></div>
+              </div>
+            )}
+            {mockupType === 'phone' && (
+              <div className="w-16 h-28 bg-white rounded-lg shadow-lg relative overflow-hidden">
+                <Image
+                  src={imageUrl}
+                  alt="Phone case with your image"
+                  width={50}
+                  height={50}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+                <div className="absolute inset-0 border-2 border-gray-300 rounded-lg"></div>
+              </div>
+            )}
+            {mockupType === 'frame' && (
+              <div className="w-32 h-40 bg-white rounded-lg shadow-lg relative overflow-hidden">
+                <Image
+                  src={imageUrl}
+                  alt="Frame with your image"
+                  width={120}
+                  height={120}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+                <div className="absolute inset-2 border-4 border-white rounded-lg shadow-inner"></div>
+              </div>
+            )}
+            {!['mug', 'tshirt', 'phone', 'frame'].includes(mockupType) && (
+              <div className="w-32 h-32 bg-white rounded-lg shadow-lg relative overflow-hidden">
+                <Image
+                  src={imageUrl}
+                  alt={`${mockupType} with your image`}
+                  width={120}
+                  height={120}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+                <div className="absolute inset-0 border-2 border-gray-300 rounded-lg"></div>
+              </div>
+            )}
+          </div>
           <div className="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
             Your Image
           </div>
