@@ -155,103 +155,148 @@ export default function Home() {
     // Use stock image as placeholder if no generated image
     const displayImage = imageUrl || stockImages[mockupType as keyof typeof stockImages] || stockImages.family;
     
-    // If we have a generated image, show it ON the realistic product mockup
+    // If we have a generated image, show it ON the product illustration
     if (imageUrl) {
-      const productMockup = productMockups[mockupType as keyof typeof productMockups] || productMockups.canvas;
-      
       return (
-        <div className="w-full h-48 bg-gray-100 rounded-lg relative overflow-hidden">
-          {/* Real product mockup as background */}
-          <div className="w-full h-full relative">
-            <Image
-              src={productMockup}
-              alt={`${mockupType} product`}
-              width={400}
-              height={300}
-              className="w-full h-full object-cover rounded-lg"
-            />
-            
-            {/* Overlay the generated image on the product */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              {mockupType === 'mug' && (
-                <div className="w-16 h-20 bg-white rounded-full shadow-lg relative overflow-hidden">
+        <div className="w-full h-48 bg-gray-50 rounded-lg relative overflow-hidden flex items-center justify-center p-4">
+          {/* Product illustration with generated image */}
+          <div className="relative">
+            {mockupType === 'mug' && (
+              <div className="relative">
+                {/* Mug illustration */}
+                <svg width="120" height="140" viewBox="0 0 120 140" className="text-gray-300">
+                  <path d="M20 20 L20 100 Q20 120 40 120 L80 120 Q100 120 100 100 L100 20 L90 20 L90 100 Q90 110 80 110 L40 110 Q30 110 30 100 L30 20 Z" fill="currentColor" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M100 40 L110 35 L110 45 Z" fill="currentColor"/>
+                </svg>
+                {/* Generated image on mug */}
+                <div className="absolute top-6 left-8 w-16 h-16 rounded-full overflow-hidden">
                   <Image
                     src={imageUrl}
                     alt="Mug with your image"
-                    width={60}
-                    height={60}
-                    className="w-full h-full object-cover rounded-full"
+                    width={64}
+                    height={64}
+                    className="w-full h-full object-cover"
                   />
                 </div>
-              )}
-              {mockupType === 'tshirt' && (
-                <div className="w-20 h-24 bg-white rounded-lg shadow-lg relative overflow-hidden">
+              </div>
+            )}
+            
+            {mockupType === 'tshirt' && (
+              <div className="relative">
+                {/* T-shirt illustration */}
+                <svg width="120" height="140" viewBox="0 0 120 140" className="text-gray-300">
+                  <path d="M60 20 L50 30 L50 50 L40 50 L40 120 L80 120 L80 50 L70 50 L70 30 Z" fill="currentColor" stroke="currentColor" strokeWidth="2"/>
+                </svg>
+                {/* Generated image on t-shirt */}
+                <div className="absolute top-12 left-8 w-20 h-20 rounded overflow-hidden">
                   <Image
                     src={imageUrl}
                     alt="T-shirt with your image"
-                    width={70}
-                    height={70}
-                    className="w-full h-full object-cover rounded-lg"
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-cover"
                   />
                 </div>
-              )}
-              {mockupType === 'phone' && (
-                <div className="w-12 h-20 bg-white rounded-lg shadow-lg relative overflow-hidden">
+              </div>
+            )}
+            
+            {mockupType === 'phone' && (
+              <div className="relative">
+                {/* Phone case illustration */}
+                <svg width="80" height="140" viewBox="0 0 80 140" className="text-gray-300">
+                  <rect x="10" y="10" width="60" height="120" rx="8" fill="currentColor" stroke="currentColor" strokeWidth="2"/>
+                  <rect x="15" y="20" width="50" height="100" rx="4" fill="white"/>
+                </svg>
+                {/* Generated image on phone */}
+                <div className="absolute top-12 left-15 w-12 h-16 rounded overflow-hidden">
                   <Image
                     src={imageUrl}
                     alt="Phone case with your image"
-                    width={40}
-                    height={60}
-                    className="w-full h-full object-cover rounded-lg"
+                    width={48}
+                    height={64}
+                    className="w-full h-full object-cover"
                   />
                 </div>
-              )}
-              {mockupType === 'frame' && (
-                <div className="w-24 h-32 bg-white rounded-lg shadow-lg relative overflow-hidden">
+              </div>
+            )}
+            
+            {mockupType === 'frame' && (
+              <div className="relative">
+                {/* Frame illustration */}
+                <svg width="120" height="140" viewBox="0 0 120 140" className="text-gray-300">
+                  <rect x="10" y="10" width="100" height="120" fill="currentColor" stroke="currentColor" strokeWidth="3"/>
+                  <rect x="20" y="20" width="80" height="100" fill="white"/>
+                </svg>
+                {/* Generated image in frame */}
+                <div className="absolute top-12 left-12 w-20 h-24 rounded overflow-hidden">
                   <Image
                     src={imageUrl}
                     alt="Frame with your image"
                     width={80}
-                    height={100}
-                    className="w-full h-full object-cover rounded-lg"
+                    height={96}
+                    className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-1 border-2 border-white rounded-lg"></div>
                 </div>
-              )}
-              {mockupType === 'canvas' && (
-                <div className="w-20 h-24 bg-white rounded-lg shadow-lg relative overflow-hidden">
+              </div>
+            )}
+            
+            {mockupType === 'canvas' && (
+              <div className="relative">
+                {/* Canvas illustration */}
+                <svg width="120" height="140" viewBox="0 0 120 140" className="text-gray-300">
+                  <rect x="10" y="10" width="100" height="120" fill="currentColor" stroke="currentColor" strokeWidth="2"/>
+                  <rect x="15" y="15" width="90" height="110" fill="white"/>
+                </svg>
+                {/* Generated image on canvas */}
+                <div className="absolute top-8 left-8 w-20 h-24 rounded overflow-hidden">
                   <Image
                     src={imageUrl}
                     alt="Canvas with your image"
-                    width={70}
-                    height={70}
-                    className="w-full h-full object-cover rounded-lg"
+                    width={80}
+                    height={96}
+                    className="w-full h-full object-cover"
                   />
                 </div>
-              )}
-              {mockupType === 'cushion' && (
-                <div className="w-20 h-20 bg-white rounded-lg shadow-lg relative overflow-hidden">
+              </div>
+            )}
+            
+            {mockupType === 'cushion' && (
+              <div className="relative">
+                {/* Cushion illustration */}
+                <svg width="120" height="120" viewBox="0 0 120 120" className="text-gray-300">
+                  <ellipse cx="60" cy="60" rx="50" ry="40" fill="currentColor" stroke="currentColor" strokeWidth="2"/>
+                </svg>
+                {/* Generated image on cushion */}
+                <div className="absolute top-8 left-8 w-20 h-16 rounded overflow-hidden">
                   <Image
                     src={imageUrl}
                     alt="Cushion with your image"
-                    width={70}
-                    height={70}
-                    className="w-full h-full object-cover rounded-lg"
+                    width={80}
+                    height={64}
+                    className="w-full h-full object-cover"
                   />
                 </div>
-              )}
-              {!['mug', 'tshirt', 'phone', 'frame', 'canvas', 'cushion'].includes(mockupType) && (
-                <div className="w-20 h-24 bg-white rounded-lg shadow-lg relative overflow-hidden">
+              </div>
+            )}
+            
+            {!['mug', 'tshirt', 'phone', 'frame', 'canvas', 'cushion'].includes(mockupType) && (
+              <div className="relative">
+                {/* Generic product illustration */}
+                <svg width="120" height="140" viewBox="0 0 120 140" className="text-gray-300">
+                  <rect x="10" y="10" width="100" height="120" rx="8" fill="currentColor" stroke="currentColor" strokeWidth="2"/>
+                </svg>
+                {/* Generated image on product */}
+                <div className="absolute top-8 left-8 w-20 h-24 rounded overflow-hidden">
                   <Image
                     src={imageUrl}
                     alt={`${mockupType} with your image`}
-                    width={70}
-                    height={70}
-                    className="w-full h-full object-cover rounded-lg"
+                    width={80}
+                    height={96}
+                    className="w-full h-full object-cover"
                   />
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
           <div className="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
             Your Image
