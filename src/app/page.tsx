@@ -11,6 +11,18 @@ export default function Home() {
   const [result, setResult] = useState<{ status: string; generatedImageUrl?: string; message?: string } | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Stock photography URLs for placeholders
+  const stockImages = {
+    family: "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&h=600&fit=crop&crop=faces",
+    canvas: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop",
+    mug: "https://images.unsplash.com/photo-1514228742587-6b1558fcf93a?w=400&h=400&fit=crop",
+    cushion: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=400&fit=crop",
+    frame: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=400&fit=crop",
+    tshirt: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+    phone: "https://images.unsplash.com/photo-1511707171631-5e8d8f0b8e8c?w=400&h=400&fit=crop",
+    poster: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=400&fit=crop"
+  };
+
   // Product data for POD section with Printful integration
   const products = [
     {
@@ -127,14 +139,17 @@ export default function Home() {
     }
   };
 
-  const renderMockup = (mockupType: string, imageUrl: string) => {
+  const renderMockup = (mockupType: string, imageUrl?: string) => {
+    // Use stock image as placeholder if no generated image
+    const displayImage = imageUrl || stockImages[mockupType as keyof typeof stockImages] || stockImages.family;
+    
     switch (mockupType) {
       case 'mug':
         return (
           <div className="w-full h-48 bg-gray-100 rounded-lg relative overflow-hidden flex items-center justify-center">
             <div className="w-24 h-32 bg-gray-200 rounded-lg relative overflow-hidden">
               <Image
-                src={imageUrl}
+                src={displayImage}
                 alt="Mug mockup"
                 width={100}
                 height={100}
@@ -148,7 +163,7 @@ export default function Home() {
           <div className="w-full h-48 bg-gray-100 rounded-lg relative overflow-hidden flex items-center justify-center">
             <div className="w-20 h-24 bg-gray-200 rounded-lg relative overflow-hidden">
               <Image
-                src={imageUrl}
+                src={displayImage}
                 alt="T-shirt mockup"
                 width={80}
                 height={80}
@@ -162,7 +177,7 @@ export default function Home() {
           <div className="w-full h-48 bg-gray-100 rounded-lg relative overflow-hidden flex items-center justify-center">
             <div className="w-16 h-28 bg-gray-200 rounded-lg relative overflow-hidden">
               <Image
-                src={imageUrl}
+                src={displayImage}
                 alt="Phone case mockup"
                 width={60}
                 height={60}
@@ -175,7 +190,7 @@ export default function Home() {
         return (
           <div className="w-full h-48 bg-gray-100 rounded-lg relative overflow-hidden">
             <Image
-              src={imageUrl}
+              src={displayImage}
               alt="Photo frame mockup"
               width={200}
               height={200}
@@ -188,7 +203,7 @@ export default function Home() {
         return (
           <div className="w-full h-48 bg-gray-100 rounded-lg relative overflow-hidden">
             <Image
-              src={imageUrl}
+              src={displayImage}
               alt={`${mockupType} mockup`}
               width={200}
               height={200}
@@ -388,22 +403,34 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column - Simple Preview */}
+            {/* Right Column - Preview */}
             <div className="flex justify-end items-start">
               <div className="w-full">
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
                   <div className="relative">
                     <div className="w-full h-[600px] bg-gray-200 relative overflow-hidden rounded-2xl">
+                      {result && result.status === 'success' && result.generatedImageUrl ? (
                         <Image
-                          src="/assets/images/Preview%201.jpeg"
+                          src={result.generatedImageUrl}
+                          alt="Generated family memory"
+                          width={400}
+                          height={600}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <Image
+                          src={stockImages.family}
                           alt="Example family portrait"
                           width={400}
                           height={600}
                           className="w-full h-full object-cover"
                         />
+                      )}
                       <div className="absolute top-4 right-4">
                         <div className="bg-white bg-opacity-90 rounded-full px-3 py-1">
-                          <p className="text-xs text-gray-700 font-medium">Example</p>
+                          <p className="text-xs text-gray-700 font-medium">
+                            {result && result.status === 'success' ? 'Your Memory' : 'Example'}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -512,14 +539,18 @@ export default function Home() {
         </section>
       )}
 
-      {/* Print-on-Demand Section */}
-      {result && result.status === 'success' && result.generatedImageUrl && (
-        <section className="px-6 py-16 bg-white">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Turn Your Memory Into Art</h2>
-              <p className="text-xl text-gray-600">Get your family memory printed on beautiful products</p>
-            </div>
+      {/* Print-on-Demand Section - Always visible */}
+      <section className="px-6 py-16 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Turn Your Memory Into Art</h2>
+            <p className="text-xl text-gray-600">
+              {result && result.status === 'success' && result.generatedImageUrl 
+                ? 'Get your family memory printed on beautiful products'
+                : 'See how your family memory will look on beautiful products'
+              }
+            </p>
+          </div>
             
             {/* Carousel Container */}
             <div className="relative">
@@ -556,15 +587,20 @@ export default function Home() {
                         {products.slice(slideIndex * 3, (slideIndex + 1) * 3).map((product) => (
                           <div key={product.id} className="bg-gray-50 rounded-2xl p-6 text-center hover:shadow-lg transition-shadow">
                             <div className="bg-white rounded-xl p-4 mb-4 shadow-sm">
-                              {renderMockup(product.mockupType, result.generatedImageUrl!)}
+                              {renderMockup(product.mockupType, result?.generatedImageUrl)}
                             </div>
                             <h3 className="text-lg font-semibold text-gray-900 mb-2">{product.name}</h3>
                             <p className="text-gray-600 text-sm mb-4">{product.description}</p>
                             <button 
                               onClick={() => handleOrder(product)}
-                              className="w-full bg-gradient-to-r from-orange-400 to-pink-500 text-white py-2 px-4 rounded-lg font-medium hover:opacity-90 transition-opacity"
+                              disabled={!result?.generatedImageUrl}
+                              className={`w-full py-2 px-4 rounded-lg font-medium transition-opacity ${
+                                result?.generatedImageUrl 
+                                  ? 'bg-gradient-to-r from-orange-400 to-pink-500 text-white hover:opacity-90' 
+                                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                              }`}
                             >
-                              Order Now - {product.price}
+                              {result?.generatedImageUrl ? `Order Now - ${product.price}` : 'Generate Image First'}
                             </button>
                           </div>
                         ))}
@@ -591,7 +627,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-      )}
     </div>
   );
 }
