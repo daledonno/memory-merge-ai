@@ -25,6 +25,16 @@ export default function Home() {
     poster: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=400&fit=crop"
   };
 
+  // Real product mockup base images
+  const productMockups = {
+    mug: "https://images.unsplash.com/photo-1514228742587-6b1558fcf93a?w=300&h=300&fit=crop&crop=center",
+    tshirt: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=300&fit=crop&crop=center", 
+    phone: "https://images.unsplash.com/photo-1511707171631-5e8d8f0b8e8c?w=200&h=300&fit=crop&crop=center",
+    frame: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=400&fit=crop&crop=center",
+    canvas: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=300&h=300&fit=crop&crop=center",
+    cushion: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=300&fit=crop&crop=center"
+  };
+
   // Product data for POD section with Printful integration
   const products = [
     {
@@ -145,72 +155,103 @@ export default function Home() {
     // Use stock image as placeholder if no generated image
     const displayImage = imageUrl || stockImages[mockupType as keyof typeof stockImages] || stockImages.family;
     
-    // If we have a generated image, show it ON the product mockup
+    // If we have a generated image, show it ON the realistic product mockup
     if (imageUrl) {
+      const productMockup = productMockups[mockupType as keyof typeof productMockups] || productMockups.canvas;
+      
       return (
         <div className="w-full h-48 bg-gray-100 rounded-lg relative overflow-hidden">
-          {/* Product mockup background */}
-          <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg flex items-center justify-center">
-            {mockupType === 'mug' && (
-              <div className="w-24 h-32 bg-white rounded-lg shadow-lg relative overflow-hidden">
-                <Image
-                  src={imageUrl}
-                  alt="Mug with your image"
-                  width={80}
-                  height={80}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-                <div className="absolute inset-0 border-2 border-gray-300 rounded-lg"></div>
-              </div>
-            )}
-            {mockupType === 'tshirt' && (
-              <div className="w-20 h-24 bg-white rounded-lg shadow-lg relative overflow-hidden">
-                <Image
-                  src={imageUrl}
-                  alt="T-shirt with your image"
-                  width={60}
-                  height={60}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-                <div className="absolute inset-0 border-2 border-gray-300 rounded-lg"></div>
-              </div>
-            )}
-            {mockupType === 'phone' && (
-              <div className="w-16 h-28 bg-white rounded-lg shadow-lg relative overflow-hidden">
-                <Image
-                  src={imageUrl}
-                  alt="Phone case with your image"
-                  width={50}
-                  height={50}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-                <div className="absolute inset-0 border-2 border-gray-300 rounded-lg"></div>
-              </div>
-            )}
-            {mockupType === 'frame' && (
-              <div className="w-32 h-40 bg-white rounded-lg shadow-lg relative overflow-hidden">
-                <Image
-                  src={imageUrl}
-                  alt="Frame with your image"
-                  width={120}
-                  height={120}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-                <div className="absolute inset-2 border-4 border-white rounded-lg shadow-inner"></div>
-              </div>
-            )}
-            {!['mug', 'tshirt', 'phone', 'frame'].includes(mockupType) && (
-              <div className="w-32 h-32 bg-white rounded-lg shadow-lg relative overflow-hidden">
-                <Image
-                  src={imageUrl}
-                  alt={`${mockupType} with your image`}
-                  width={120}
-                  height={120}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-                <div className="absolute inset-0 border-2 border-gray-300 rounded-lg"></div>
-              </div>
-            )}
+          {/* Real product mockup as background */}
+          <div className="w-full h-full relative">
+            <Image
+              src={productMockup}
+              alt={`${mockupType} product`}
+              width={400}
+              height={300}
+              className="w-full h-full object-cover rounded-lg"
+            />
+            
+            {/* Overlay the generated image on the product */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              {mockupType === 'mug' && (
+                <div className="w-16 h-20 bg-white rounded-full shadow-lg relative overflow-hidden">
+                  <Image
+                    src={imageUrl}
+                    alt="Mug with your image"
+                    width={60}
+                    height={60}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                </div>
+              )}
+              {mockupType === 'tshirt' && (
+                <div className="w-20 h-24 bg-white rounded-lg shadow-lg relative overflow-hidden">
+                  <Image
+                    src={imageUrl}
+                    alt="T-shirt with your image"
+                    width={70}
+                    height={70}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </div>
+              )}
+              {mockupType === 'phone' && (
+                <div className="w-12 h-20 bg-white rounded-lg shadow-lg relative overflow-hidden">
+                  <Image
+                    src={imageUrl}
+                    alt="Phone case with your image"
+                    width={40}
+                    height={60}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </div>
+              )}
+              {mockupType === 'frame' && (
+                <div className="w-24 h-32 bg-white rounded-lg shadow-lg relative overflow-hidden">
+                  <Image
+                    src={imageUrl}
+                    alt="Frame with your image"
+                    width={80}
+                    height={100}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                  <div className="absolute inset-1 border-2 border-white rounded-lg"></div>
+                </div>
+              )}
+              {mockupType === 'canvas' && (
+                <div className="w-20 h-24 bg-white rounded-lg shadow-lg relative overflow-hidden">
+                  <Image
+                    src={imageUrl}
+                    alt="Canvas with your image"
+                    width={70}
+                    height={70}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </div>
+              )}
+              {mockupType === 'cushion' && (
+                <div className="w-20 h-20 bg-white rounded-lg shadow-lg relative overflow-hidden">
+                  <Image
+                    src={imageUrl}
+                    alt="Cushion with your image"
+                    width={70}
+                    height={70}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </div>
+              )}
+              {!['mug', 'tshirt', 'phone', 'frame', 'canvas', 'cushion'].includes(mockupType) && (
+                <div className="w-20 h-24 bg-white rounded-lg shadow-lg relative overflow-hidden">
+                  <Image
+                    src={imageUrl}
+                    alt={`${mockupType} with your image`}
+                    width={70}
+                    height={70}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </div>
+              )}
+            </div>
           </div>
           <div className="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
             Your Image
